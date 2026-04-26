@@ -1,0 +1,19 @@
+class Solution {
+    public int climbStairs(int n) {
+        //如果小于大于2那么直接返回 
+     if(n<=2){
+        return n;
+     }
+     int a=1;
+     int b=2;
+      int c=0;
+      //否则就套用公式完成计算
+     for(int i=3;i<=n;i++){
+        c=a+b;
+        a=b;
+        b=c;
+     }
+     return c;
+
+    }
+}

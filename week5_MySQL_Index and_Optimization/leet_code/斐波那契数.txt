@@ -1,0 +1,18 @@
+class Solution {
+   int number1=0;
+   int number2=1;
+   int sum=0;
+    public int fib(int n) {
+        if(n==0){
+            return 0;
+        }else if(n==1){
+            return 1;
+        }else if(n==2){
+            return number1+number2;
+        }
+        sum=number1+number2;
+        number1=number2;
+        number2=sum;
+        return fib(n-1);
+    }
+}
