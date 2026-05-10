@@ -1,0 +1,22 @@
+class Solution {
+    public int rob(int[] nums) {
+    //跳过没有用的数组
+    if(nums==null || nums.length==0) return 0;
+    if(nums.length==1) return nums[0];
+    //接下来处理开头
+    //最佳上一个
+    int prve1=Math.max(nums[0],nums[1]);
+    //最佳的前两个
+    int prve2=Math.max(nums[0]);
+    //最大值
+    for(int i=2;i<nums.length;i++){
+        //因为最佳肯定需要选一个房子 要么这一个房子 要么下一个
+        //如果 选这个房子 那么肯定需要在上一个房子跳两格
+        int curr=Math.max(prve1,prve2+nums[i]);
+        //选完房子进行交换
+        prve2=prve1;
+        prve1=curr;
+    }
+    return prve1;
+    }
+}
