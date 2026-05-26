@@ -1,0 +1,101 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        //简化后续流程
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int count = 0;
+        //遍历二维数组
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    dfs(grid, i, j, rows, cols);
+                }
+            }
+        }
+        return count;
+    }
+    
+    private void dfs(char[][] grid, int i, int j, int rows, int cols) {
+        // 边界检查 + 如果不是陆地就返回
+        if (i < 0 || i >= rows || j < 0 || j >= cols || grid[i][j] != '1') {
+            return;
+        }
+        
+        // 岛屿沉沦（标记为已访问）
+        grid[i][j] = '0';
+        
+        // 向四个方向扩散
+        dfs(grid, i + 1, j, rows, cols); // 下
+        dfs(grid, i - 1, j, rows, cols); // 上
+        dfs(grid, i, j + 1, rows, cols); // 右
+        dfs(grid, i, j - 1, rows, cols); // 左
+    }
+}
+
+所有可能路径
+class Solution {
+    //结果集
+    List<List<Integer>> result =new ArrayList<>();
+    //单条路径
+    List<Integer> path=new ArrayList<>();
+
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        //从0点出发
+        path.add(0);
+        //开始搜索
+        dfs(graph,0);
+        return result;
+
+    }
+    private void dfs(int[][] graph,int node){
+        //到达终点
+        if(node==graph.length-1){
+            //保存当前路径
+            result.add(new ArrayList<>(path));
+            return;
+        }
+
+
+        //遍历所有能去的节点 
+        //因为是双循环 所以graph[node]算数组
+        for(int next:graph[node]){
+            path.add(next);  //做选择 无论添加谁 递归都会走完后面的分支
+            dfs(graph,next);//递归 在探索完后续的节点后 递归就结束了 那么 就会回溯 删掉本次添加的节点
+            path.remove(path.size()-1);//回溯
+        }
+
+    }
+}
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        //准备材料
+        int row =image.length;
+        int sco =image[0].length;
+        int oldcolor=image[sr][sc];
+           // 关键判断：避免无限递归
+        if (oldcolor == color) {
+            return image;
+        }
+        xuanran(image,sr,sc,color,row,sco,oldcolor);//开始渲染
+        return image;
+    }
+    private void xuanran(int[][] image,int sr,int sc,int color,int row,int sco,int oldcolor){
+        //判断边界  符合边界进行染色
+        if(sc<0 ||sc>=sco || sr<0|| sr>=row|| image[sr][sc]!=oldcolor){
+            return;
+        }
+        //渲染本格
+        
+        image[sr][sc]=color;
+        //向四周渲染
+            xuanran(image, sr - 1, sc, color, row, sco, oldcolor); // 上
+        xuanran(image, sr + 1, sc, color, row, sco, oldcolor); // 下
+        xuanran(image, sr, sc + 1, color, row, sco, oldcolor); // 右
+        xuanran(image, sr, sc - 1, color, row, sco, oldcolor); // 左
+
+    }
+}
